@@ -1,27 +1,22 @@
-# LocagestFrontend
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.3.17.
+# Sistema de Aluguel — Angular (conversão inicial)
 
-## Development server
+Criei um scaffold Angular a partir do projeto React que você enviou. Objetivo:
+- Manter a mesma estrutura de páginas: Gerenciar Aluguéis, Veículos, Clientes, Iniciar e Encerrar.
+- Fornecer componentes Angular básicos correspondentes aos arquivos React.
+- Incluir instruções para completar/rodar o projeto.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+**Status**
+- Conversão manual parcial automática: estrutura, rotas e componentes básicos estão prontos.
+- O estilo original baseado em Tailwind / shadcn / lucide não foi convertido item a item.
+- Lógica específica (hooks, estados complexos, integrações com APIs) foi simplificada. Você encontrará comentários para expandir.
 
-## Code scaffolding
+**Como usar**
+1. Instale o Angular CLI localmente: `npm install -g @angular/cli` (ou use `npx` nos scripts).
+2. Instale dependências: `npm install`
+3. Rode o app: `npm start` (abre em http://localhost:4200 por padrão)
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
-
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+Se quiser, posso:
+- Continuar a conversão dos componentes específicos (copiar campos de formulários, validações, serviços).
+- Converter estilos Tailwind para CSS/SCSS ou integrar Tailwind no projeto Angular.
+- Conectar à API ou portar a lógica de estado com um serviço Angular.

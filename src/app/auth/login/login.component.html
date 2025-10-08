@@ -1,0 +1,39 @@
+<div class="flex items-center justify-center h-screen bg-gray-100">
+  <div class="bg-white shadow-2xl rounded-2xl p-10 w-96">
+    <h1 class="text-2xl font-bold mb-6 text-center text-gray-800">
+      Sistema de Aluguel - Login
+    </h1>
+
+    <form (ngSubmit)="onSubmit()" #loginForm="ngForm" class="flex flex-col gap-4">
+      <input
+        type="text"
+        name="username"
+        [(ngModel)]="username"
+        placeholder="Usuário"
+        required
+        class="border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+      />
+
+      <input
+        type="password"
+        name="password"
+        [(ngModel)]="password"
+        placeholder="Senha"
+        required
+        class="border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+      />
+
+      <button
+        type="submit"
+        [disabled]="!loginForm.valid"
+        class="bg-indigo-600 text-white py-2 rounded-lg hover:bg-indigo-700 transition"
+      >
+        Entrar
+      </button>
+
+      <p *ngIf="errorMessage" class="text-red-500 text-sm text-center">
+        {{ errorMessage }}
+      </p>
+    </form>
+  </div>
+</div>

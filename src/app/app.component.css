@@ -1,0 +1,2 @@
+.app-shell { display:flex; height:100vh; font-family: Arial, sans-serif; }
+.main { flex:1; padding:16px; overflow:auto; background:#f3f4f6;}
