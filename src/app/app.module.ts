@@ -10,14 +10,22 @@ import { ClientRegistrationComponent } from './client-registration.component';
 import { StartRentalComponent } from './start-rental.component';
 import { EndRentalComponent } from './end-rental.component';
 import {CommonModule} from "@angular/common";
+import { LoginComponent } from './auth/login/login.component';
 
 const routes: Routes = [
-  // { path: '', component: LoginComponent } por exemplo
+  { path: '', redirectTo: '/login', pathMatch: 'full' },
+  { path: 'login', component: LoginComponent },
+  { path: 'rentals', component: RentalManagementComponent },
+  { path: 'vehicles', component: VehicleRegistrationComponent },
+  { path: 'clients', component: ClientRegistrationComponent },
+  { path: 'start', component: StartRentalComponent },
+  { path: 'end', component: EndRentalComponent },
 ];
 
 @NgModule({
   declarations: [
     AppComponent,
+    LoginComponent,
     SidebarComponent,
     RentalManagementComponent,
     VehicleRegistrationComponent,
