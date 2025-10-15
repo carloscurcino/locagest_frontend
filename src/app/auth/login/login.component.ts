@@ -8,17 +8,27 @@ import { AuthService } from '../auth.service';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
-  username = '';
+  email = '';
   password = '';
   errorMessage = '';
 
   constructor(private auth: AuthService, private router: Router) {}
 
   onSubmit() {
-    if (this.auth.login(this.username, this.password)) {
-      this.router.navigate(['/rentals']);
-    } else {
-      this.errorMessage = 'Usuário ou senha incorretos';
-    }
+    this.auth.login(this.email, this.password).subscribe({
+      next: (response) => {
+        // Ajuste conforme a resposta da sua API
+        console.log("Respoinse", response)
+        if (response.token) {
+          localStorage.setItem('token', JSON.stringify(response.token));
+          this.router.navigate(['/rentals']);
+        } else {
+          this.errorMessage = 'Usuário ou senha incorretos';
+        }
+      },
+      error: () => {
+        this.errorMessage = 'Erro ao tentar logar';
+      }
+    });
   }
 }
