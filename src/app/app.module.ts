@@ -9,8 +9,11 @@ import { VehicleRegistrationComponent } from './vehicle-registration.component';
 import { ClientRegistrationComponent } from './client-registration.component';
 import { StartRentalComponent } from './start-rental.component';
 import { EndRentalComponent } from './end-rental.component';
-import {CommonModule} from "@angular/common";
+import { CommonModule } from "@angular/common";
 import { LoginComponent } from './auth/login/login.component';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { ApiBaseUrlInterceptor } from './auth/api-base-url.interceptor';
+import { HttpClientModule } from '@angular/common/http';
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -37,7 +40,11 @@ const routes: Routes = [
     BrowserModule,
     FormsModule,
     CommonModule,
+    HttpClientModule,
     RouterModule.forRoot(routes)
+  ],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: ApiBaseUrlInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]
 })
