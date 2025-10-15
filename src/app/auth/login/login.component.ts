@@ -20,7 +20,7 @@ export class LoginComponent {
         // Ajuste conforme a resposta da sua API
         console.log("Respoinse", response)
         if (response.token) {
-          localStorage.setItem('token', JSON.stringify(response.token));
+          localStorage.setItem('token', response.token);
           this.router.navigate(['/rentals']);
         } else {
           this.errorMessage = 'Usuário ou senha incorretos';
