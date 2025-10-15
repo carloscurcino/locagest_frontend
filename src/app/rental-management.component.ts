@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { StorageService } from './storage.service';
-import {Rental} from "./models";
+import { Rental } from "./models";
+import { HttpClient } from '@angular/common/http';
 @Component({
   selector: 'app-rental-management',
   template: `
@@ -24,8 +25,13 @@ import {Rental} from "./models";
 })
 export class RentalManagementComponent {
   rentals: Rental[] = [];
-  constructor(private storage: StorageService){
+  constructor(private storage: StorageService, private http: HttpClient) {
     this.rentals = storage.getRentals();
+    // Teste GET com token
+    this.http.get('/locacoes').subscribe({
+      next: (res) => console.log('Resposta /locacoes:', res),
+      error: (err) => console.error('Erro ao buscar /locacoes:', err)
+    });
   }
   getClientName(id: string){ const c = this.storage.getClients().find(x=>x.id===id); return c?c.nome:'-'; }
   getVehicleModel(id: string){ const v = this.storage.getVehicles().find(x=>x.id===id); return v?v.modelo+' - '+v.placa:'-'; }
