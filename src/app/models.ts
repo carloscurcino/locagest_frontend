@@ -5,6 +5,8 @@ export interface Vehicle {
   ano?: number;
   cor?: string;
   categoria?: string;
+  kmAtual?: number;
+  status?: 'disponivel' | 'locado' | 'manutencao';
 }
 
 export interface Client {
@@ -13,6 +15,8 @@ export interface Client {
   cpf?: string;
   telefone?: string;
   email?: string;
+  cnhNumero?: string;
+  cnhValidade?: string;
 }
 
 export interface Rental {
@@ -21,7 +25,9 @@ export interface Rental {
   veiculoId: string;
   dataInicio: string;
   dataPrevista: string;
+  kmEntrega?: number;
   dataFim?: string;
   valor?: number;
-  status?: 'ativo' | 'finalizado';
+  status: 'ativo' | 'finalizado' | 'cancelado';
+  criadoEm: string;
 }
