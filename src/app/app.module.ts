@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { MatIconModule } from '@angular/material/icon';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule, Routes } from '@angular/router';
 import { FormsModule } from '@angular/forms';
@@ -44,7 +45,8 @@ const routes: Routes = [
     FormsModule,
     CommonModule,
     HttpClientModule,
-    RouterModule.forRoot(routes)
+    MatIconModule,
+    RouterModule.forRoot(routes),
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: ApiBaseUrlInterceptor, multi: true }
