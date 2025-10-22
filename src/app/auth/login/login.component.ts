@@ -8,14 +8,14 @@ import { AuthService } from '../auth.service';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
-  email = '';
+  identifier = '';
   password = '';
   errorMessage = '';
 
   constructor(private auth: AuthService, private router: Router) {}
 
   onSubmit() {
-    this.auth.login(this.email, this.password).subscribe({
+    this.auth.login(this.identifier, this.password).subscribe({
       next: (response) => {
         // Ajuste conforme a resposta da sua API
         console.log("Respoinse", response)

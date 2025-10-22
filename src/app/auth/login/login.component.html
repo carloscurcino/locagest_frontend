@@ -7,9 +7,9 @@
     <form (ngSubmit)="onSubmit()" #loginForm="ngForm" class="flex flex-col gap-4">
       <input
         type="text"
-        name="email"
-        [(ngModel)]="email"
-        placeholder="Email"
+        name="identifier"
+        [(ngModel)]="identifier"
+        placeholder="Email ou CPF"
         required
         class="border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
       />
@@ -26,7 +26,7 @@
       <button
         type="submit"
         [disabled]="!loginForm.valid"
-        class="bg-indigo-600 text-white py-2 rounded-lg hover:bg-indigo-700 transition"
+        class="bg-primary text-white py-2 rounded-lg hover:bg-indigo-700 transition"
       >
         Entrar
       </button>

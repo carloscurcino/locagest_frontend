@@ -9,8 +9,8 @@ export class AuthService {
   constructor(private router: Router, private http: HttpClient) {}
 
   // Exemplo de login usando requisição HTTP POST
-  login(email: string, password: string) {
-    const body = { email, password };
+  login(identifier: string, password: string) {
+    const body = { identifier, password };
     // Substitua a URL abaixo pela URL real da sua API de autenticação
     const data = this.http.post<any>('/auth/login', body);
     return data;
