@@ -29,7 +29,8 @@
         <label for="password" class="text-black">Senha:</label>
         <input type="password" name="password" [(ngModel)]="password" placeholder="Senha" required
           class="border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500" />
-        <p *ngIf="errors.password || errors.senha" class="text-red-500 text-sm mt-1">{{ errors.password || errors.senha }}</p>
+        <p *ngIf="errors.password || errors.senha" class="text-red-500 text-sm mt-1">{{ errors.password || errors.senha
+          }}</p>
       </div>
 
       <button type="submit" [disabled]="!loginForm.valid"
