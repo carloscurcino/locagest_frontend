@@ -28,12 +28,11 @@ export class RegisterComponent {
     this.auth.register(this.name, this.cpf, this.email, this.password).subscribe({
       next: (response) => {
         // Ajuste conforme a resposta da sua API
-        console.log("Respoinse", response)
-        if (response.token) {
-          localStorage.setItem('token', response.token);
-          this.router.navigate(['/rentals']);
+        console.log("Response", response)
+        if (response) {
+          this.router.navigate(['/login']);
         } else {
-          this.errorMessage = 'Usuário ou senha incorretos';
+          this.errorMessage = 'Erro ao se registrar';
         }
       },
       error: (error) => {
