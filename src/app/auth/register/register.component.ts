@@ -28,8 +28,8 @@ export class RegisterComponent {
           this.errorMessage = 'Usuário ou senha incorretos';
         }
       },
-      error: () => {
-        this.errorMessage = 'Erro ao tentar logar';
+      error: (error) => {
+        this.errorMessage = error || 'Erro ao se registrar';
       }
     });
   }
