@@ -16,6 +16,7 @@
         <label for="cpf" class="text-black">CPF:</label>
         <input type="text" name="cpf" [(ngModel)]="cpf" placeholder="CPF" required
           class="border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+        <p *ngIf="errors.cpf" class="text-red-500 text-sm mt-1">{{ errors.cpf }}</p>
       </div>
 
       <div class="flex flex-col">
@@ -28,6 +29,7 @@
         <label for="password" class="text-black">Senha:</label>
         <input type="password" name="password" [(ngModel)]="password" placeholder="Senha" required
           class="border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+        <p *ngIf="errors.password || errors.senha" class="text-red-500 text-sm mt-1">{{ errors.password || errors.senha }}</p>
       </div>
 
       <button type="submit" [disabled]="!loginForm.valid"
@@ -35,6 +37,9 @@
         Cadastrar
       </button>
 
+      <div *ngIf="generalErrors.length" class="text-red-500 text-sm text-center">
+        <p *ngFor="let e of generalErrors">{{ e }}</p>
+      </div>
       <p *ngIf="errorMessage" class="text-red-500 text-sm text-center">
         {{ errorMessage }}
       </p>

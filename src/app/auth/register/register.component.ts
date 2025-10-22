@@ -13,10 +13,18 @@ export class RegisterComponent {
   email = '';
   password = '';
   errorMessage = '';
+  // errors por campo vindo do backend, ex: { senha: '...', cpf: '...' }
+  errors: Record<string,string> = {};
+  // mensagens gerais não atreladas a campos
+  generalErrors: string[] = [];
 
   constructor(private auth: AuthService, private router: Router) {}
 
   onSubmit() {
+    // reset errors
+    this.errors = {};
+    this.generalErrors = [];
+
     this.auth.register(this.name, this.cpf, this.email, this.password).subscribe({
       next: (response) => {
         // Ajuste conforme a resposta da sua API
@@ -29,7 +37,31 @@ export class RegisterComponent {
         }
       },
       error: (error) => {
-        this.errorMessage = error || 'Erro ao se registrar';
+        try {
+          // se error.error for o corpo já desserializado
+          const body = error && error.error ? error.error : null;
+          if (body && typeof body === 'object') {
+            Object.keys(body).forEach((k) => {
+              const v = body[k];
+              if (Array.isArray(v)) {
+                this.errors[k] = v.join(', ');
+              } else if (typeof v === 'string') {
+                this.errors[k] = v;
+              } else if (v && typeof v === 'object') {
+                this.errors[k] = JSON.stringify(v);
+              }
+            });
+            if ((body as any).message && typeof (body as any).message === 'string') {
+              this.generalErrors.push((body as any).message);
+            }
+          } else if (typeof error === 'string') {
+            this.generalErrors.push(error);
+          } else {
+            this.generalErrors.push('Erro ao se registrar');
+          }
+        } catch (e) {
+          this.generalErrors.push('Erro ao se registrar');
+        }
       }
     });
   }
