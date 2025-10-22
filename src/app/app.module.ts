@@ -11,6 +11,7 @@ import { StartRentalComponent } from './start-rental.component';
 import { EndRentalComponent } from './end-rental.component';
 import { CommonModule } from "@angular/common";
 import { LoginComponent } from './auth/login/login.component';
+import { RegisterComponent } from './auth/register/register.component';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ApiBaseUrlInterceptor } from './auth/api-base-url.interceptor';
 import { HttpClientModule } from '@angular/common/http';
@@ -18,6 +19,7 @@ import { HttpClientModule } from '@angular/common/http';
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
+  { path: 'register', component: RegisterComponent },
   { path: 'rentals', component: RentalManagementComponent },
   { path: 'vehicles', component: VehicleRegistrationComponent },
   { path: 'clients', component: ClientRegistrationComponent },
@@ -29,6 +31,7 @@ const routes: Routes = [
   declarations: [
     AppComponent,
     LoginComponent,
+    RegisterComponent,
     SidebarComponent,
     RentalManagementComponent,
     VehicleRegistrationComponent,

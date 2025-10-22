@@ -5,9 +5,11 @@ import { ClientRegistrationComponent } from './client-registration.component';
 import { StartRentalComponent } from './start-rental.component';
 import { EndRentalComponent } from './end-rental.component';
 import { LoginComponent } from './auth/login/login.component';
+import { RegisterComponent } from './auth/register/register.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'rentals', pathMatch: 'full' },
+  { path: 'register', component: RegisterComponent },
   { path: 'login', component: LoginComponent },
   { path: 'rentals', component: RentalManagementComponent },
   { path: 'vehicles', component: VehicleRegistrationComponent },

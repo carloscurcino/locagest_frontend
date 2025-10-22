@@ -8,23 +8,21 @@ export class AuthService {
 
   constructor(private router: Router, private http: HttpClient) {}
 
-  // Exemplo de login usando requisição HTTP POST
   login(identifier: string, password: string) {
     const body = { identifier, password };
-    // Substitua a URL abaixo pela URL real da sua API de autenticação
     const data = this.http.post<any>('/auth/login', body);
     return data;
-    // Exemplo de uso:
-    // this.authService.login('admin', '1234').subscribe(response => {
-    //   if (response.sucesso) {
-    //     localStorage.setItem(this.STORAGE_KEY, JSON.stringify(response.token));
-    //   }
-    // });
   }
 
   logout() {
     localStorage.removeItem(this.STORAGE_KEY);
     this.router.navigate(['/login']);
+  }
+
+  register(name: string, cpf: string, email: string, password: string) {
+    const body = { nome: name, cpf, email, senha:password };
+    const data = this.http.post<any>('/auth/register', body);
+    return data;
   }
 
   isAuthenticated(): boolean {
