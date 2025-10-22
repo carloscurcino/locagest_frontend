@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { AuthService } from './auth/auth.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -70,13 +71,18 @@ import { Component } from '@angular/core';
         </nav>
       </div>
 
-      <div class="sidebar-footer">
+      <div class="sidebar-footer flex flex-col">
         <div class="user">
           <div class="avatar">A</div>
           <div class="user-info">
             <div class="user-name">Admin</div>
             <div class="user-email">admin</div>
           </div>
+        </div>
+        <div class="logout">
+          <a (click)="logout()" class="menu-item">
+            <mat-icon aria-hidden="false" aria-label="Logout icon" fontIcon="logout"></mat-icon>
+          </a>
         </div>
       </div>
     </aside>
@@ -182,4 +188,12 @@ import { Component } from '@angular/core';
     .user-email { font-size:12px; color:#6b7280; }
   `]
 })
-export class SidebarComponent {}
+
+export class SidebarComponent {
+  constructor(private auth: AuthService) {}
+
+  logout(): void {
+    this.auth.logout();
+  }
+}
+
