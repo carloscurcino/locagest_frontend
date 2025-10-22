@@ -1,8 +1,15 @@
-<div class="flex items-center justify-center h-screen bg-gray-100">
-  <div class="bg-white shadow-2xl rounded-2xl p-10 w-96">
-    <h1 class="text-2xl font-bold mb-6 text-center text-gray-800">
-      LocaGest - Login
+<div class="flex flex-col items-center justify-center h-screen bg-gray-100">
+  <h1 class="text-2xl font-bold mb-6 text-center text-gray-800">
+      LocaGest
     </h1>
+
+  <div class="bg-white shadow-2xl rounded-2xl p-10 w-96">
+    <h2 class="text-2xl font-bold mb-6 text-center text-gray-800">
+      Login
+    </h2>
+    <p>
+      Preencha com as informações de acesso!
+    </p>
 
     <form (ngSubmit)="onSubmit()" #loginForm="ngForm" class="flex flex-col gap-4">
       <input
