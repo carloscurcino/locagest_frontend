@@ -13,22 +13,17 @@ export class RegisterComponent {
   email = '';
   password = '';
   errorMessage = '';
-  // errors por campo vindo do backend, ex: { senha: '...', cpf: '...' }
   errors: Record<string,string> = {};
-  // mensagens gerais não atreladas a campos
   generalErrors: string[] = [];
 
   constructor(private auth: AuthService, private router: Router) {}
 
   onSubmit() {
-    // reset errors
     this.errors = {};
     this.generalErrors = [];
 
     this.auth.register(this.name, this.cpf, this.email, this.password).subscribe({
       next: (response) => {
-        // Ajuste conforme a resposta da sua API
-        console.log("Response", response)
         if (response) {
           this.router.navigate(['/login']);
         } else {
@@ -37,7 +32,6 @@ export class RegisterComponent {
       },
       error: (error) => {
         try {
-          // se error.error for o corpo já desserializado
           const body = error && error.error ? error.error : null;
           if (body && typeof body === 'object') {
             Object.keys(body).forEach((k) => {
