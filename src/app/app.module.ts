@@ -16,16 +16,17 @@ import { RegisterComponent } from './auth/register/register.component';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ApiBaseUrlInterceptor } from './auth/api-base-url.interceptor';
 import { HttpClientModule } from '@angular/common/http';
+import { AuthGuard } from './auth/auth.guard';
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
-  { path: 'rentals', component: RentalManagementComponent },
-  { path: 'vehicles', component: VehicleRegistrationComponent },
-  { path: 'clients', component: ClientRegistrationComponent },
-  { path: 'start', component: StartRentalComponent },
-  { path: 'end', component: EndRentalComponent },
+    { path: 'rentals', component: RentalManagementComponent, canActivate: [AuthGuard] },
+    { path: 'vehicles', component: VehicleRegistrationComponent, canActivate: [AuthGuard] },
+    { path: 'clients', component: ClientRegistrationComponent, canActivate: [AuthGuard] },
+    { path: 'start', component: StartRentalComponent, canActivate: [AuthGuard] },
+    { path: 'end', component: EndRentalComponent, canActivate: [AuthGuard] },
 ];
 
 @NgModule({
