@@ -1,13 +1,28 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Router, NavigationEnd } from '@angular/router';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',
-  standalone: true,
-  imports: [RouterOutlet],
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  template: `
+  <div class="flex min-h-screen">
+    <app-sidebar *ngIf="!isLoginPage"></app-sidebar>
+
+    <div class="flex-1 p-4 bg-gray-50">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+  `
 })
 export class AppComponent {
-  title = 'locagest_frontend';
+  isLoginPage = false;
+
+  constructor(private router: Router) {
+    this.router.events
+      .pipe(filter(event => event instanceof NavigationEnd))
+      .subscribe((event: any) => {
+        const url = event.urlAfterRedirects;
+        this.isLoginPage = url.startsWith('/login') || url.startsWith('/register');
+      });
+  }
 }
