@@ -22,13 +22,11 @@ export class StorageService {
     }
   }
 
-  // --- helpers ---
   private save() {
     localStorage.setItem(this.key, JSON.stringify(this.db));
   }
 
   private seed() {
-    // seeds de exemplo — adapte para o seu ambiente
     this.db.vehicles = [
       {
         id: 'V1',
@@ -85,7 +83,6 @@ export class StorageService {
     return prefix + Date.now().toString(36) + Math.floor(Math.random() * 1000).toString(36);
   }
 
-  // --- Vehicles ---
   getVehicles(): Vehicle[] {
     return JSON.parse(JSON.stringify(this.db.vehicles));
   }
@@ -136,7 +133,6 @@ export class StorageService {
     this.save();
   }
 
-  // --- Rentals ---
   getRentals(): Rental[] {
     return JSON.parse(JSON.stringify(this.db.rentals));
   }
@@ -156,7 +152,6 @@ export class StorageService {
     this.db.rentals.push(rental);
     this.save();
 
-    // opcional: marcar veículo como locado automaticamente aqui (se desejado)
     const vehicle = this.getVehicleById(rental.veiculoId);
     if (vehicle) {
       vehicle.status = 'locado';
@@ -173,7 +168,6 @@ export class StorageService {
     this.save();
   }
 
-  // --- util ---
   clearAll() {
     this.db = { vehicles: [], clients: [], rentals: [] };
     this.save();

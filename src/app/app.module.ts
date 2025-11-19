@@ -29,13 +29,13 @@ const routes: Routes = [
     AppComponent,
     LoginComponent,
     SidebarComponent,
-    RentalManagementComponent,
     VehicleRegistrationComponent,
     ClientRegistrationComponent,
     EndRentalComponent
   ],
   imports: [
     BrowserModule,
+    RentalManagementComponent,
     FormsModule,
     CommonModule,
     RouterModule.forRoot(routes)

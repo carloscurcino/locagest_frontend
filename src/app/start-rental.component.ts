@@ -96,13 +96,11 @@ export class StartRentalComponent {
   start() {
     this.errorMessage = '';
 
-    // validações básicas
     if (!this.clienteId) { this.errorMessage = 'Selecione o cliente.'; return; }
     if (!this.veiculoId) { this.errorMessage = 'Selecione o veículo.'; return; }
     if (!this.dataInicio) { this.errorMessage = 'Informe a data e hora inicial.'; return; }
     if (!this.dataPrevista) { this.errorMessage = 'Informe a data e hora prevista para devolução.'; return; }
 
-    // parse datas
     const inicio = new Date(this.dataInicio);
     const prevista = new Date(this.dataPrevista);
     if (isNaN(inicio.getTime()) || isNaN(prevista.getTime())) {
@@ -121,17 +119,14 @@ export class StartRentalComponent {
       return;
     }
 
-    // valida veículo já locado
     if (vehicle.status === 'locado') {
       this.errorMessage = 'Veículo já está locado.';
       return;
     }
 
-    // valida CNH: se existir cnhValidade, checar validade >= dataInicio
     if (client.cnhValidade) {
       const cnhVal = new Date(client.cnhValidade);
       if (isNaN(cnhVal.getTime())) {
-        // formato inválido; opcional: alertar
       } else {
         if (cnhVal < inicio) {
           this.errorMessage = 'CNH do cliente vencida antes da data de início. Não é possível locar.';
@@ -139,12 +134,10 @@ export class StartRentalComponent {
         }
       }
     } else {
-      // sem CNH informada — política: impedir ou permitir? aqui impedimos
       this.errorMessage = 'Cliente não possui CNH cadastrada.';
       return;
     }
 
-    // tudo ok: criar aluguel
     const rental: Rental = {
       id: 'R' + Date.now(),
       clienteId: client.id,
@@ -156,17 +149,13 @@ export class StartRentalComponent {
       criadoEm: new Date().toISOString()
     };
 
-    // persistir aluguel
     this.storage.addRental(rental);
 
-    // marcar veículo como locado
     const updatedVehicle: Vehicle = { ...vehicle, status: 'locado' };
     this.storage.updateVehicle(updatedVehicle);
 
-    // feedback
     alert('Aluguel iniciado com sucesso.');
     this.reset();
-    // recarrega listas locais
     this.clients = this.storage.getClients();
     this.vehicles = this.storage.getVehicles();
   }
