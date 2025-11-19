@@ -1,0 +1,44 @@
+<h2>Novo Veículo</h2>
+
+<div *ngIf="errorMessage" class="alert alert-danger">{{ errorMessage }}</div>
+
+<form [formGroup]="vehicleForm" (ngSubmit)="onSubmit()">
+
+  <div class="form-group">
+    <label>Modelo</label>
+    <input formControlName="modelo" class="form-control" placeholder="Ex: Fiat Uno"
+           [class.is-invalid]="vehicleForm.get('modelo')?.invalid && vehicleForm.get('modelo')?.touched">
+  </div>
+
+  <div class="form-group">
+    <label>Placa</label>
+    <input formControlName="placa" class="form-control" placeholder="Ex: ABC-1234"
+           [class.is-invalid]="vehicleForm.get('placa')?.invalid && vehicleForm.get('placa')?.touched">
+  </div>
+
+  <div class="form-row">
+    <div class="form-group">
+      <label>Ano</label>
+      <input type="number" formControlName="ano" class="form-control"
+             [class.is-invalid]="vehicleForm.get('ano')?.invalid && vehicleForm.get('ano')?.touched">
+    </div>
+    <div class="form-group">
+      <label>Cor</label>
+      <input formControlName="cor" class="form-control"
+             [class.is-invalid]="vehicleForm.get('cor')?.invalid && vehicleForm.get('cor')?.touched">
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label>Categoria</label>
+    <input formControlName="categoria" class="form-control" placeholder="Ex: Sedan, Hatch"
+           [class.is-invalid]="vehicleForm.get('categoria')?.invalid && vehicleForm.get('categoria')?.touched">
+  </div>
+
+  <div class="actions-row">
+    <button type="button" class="btn btn-secondary" (click)="onCancel()">Cancelar</button>
+    <button type="submit" [disabled]="vehicleForm.invalid || isSubmitting" class="btn btn-primary">
+      {{ isSubmitting ? 'Salvando...' : 'Salvar Veículo' }}
+    </button>
+  </div>
+</form>

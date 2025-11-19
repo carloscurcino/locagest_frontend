@@ -5,8 +5,8 @@ import { FormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 import { SidebarComponent } from './sidebar.component';
 import { RentalManagementComponent } from './rental-management.component';
-import { VehicleRegistrationComponent } from './vehicle-registration.component';
-import { ClientRegistrationComponent } from './client-registration.component';
+import { VehicleManagementComponent } from './components/vehicle-management/vehicle-management.component';
+import { ClientManagementComponent } from './components/client-management/client-management.component';
 import { StartRentalComponent } from './components/start-rental/start-rental.component';
 import { EndRentalComponent } from './end-rental.component';
 import { CommonModule } from "@angular/common";
@@ -18,8 +18,8 @@ const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
   { path: 'rentals', component: RentalManagementComponent },
-  { path: 'vehicles', component: VehicleRegistrationComponent },
-  { path: 'clients', component: ClientRegistrationComponent },
+  { path: 'vehicles', component: VehicleManagementComponent },
+  { path: 'clients', component: ClientManagementComponent },
   { path: 'start', component: StartRentalComponent },
   { path: 'end', component: EndRentalComponent },
 ];
@@ -28,14 +28,14 @@ const routes: Routes = [
   declarations: [
     AppComponent,
     LoginComponent,
-    SidebarComponent,
-    VehicleRegistrationComponent,
-    ClientRegistrationComponent,
     EndRentalComponent
   ],
   imports: [
     BrowserModule,
     RentalManagementComponent,
+    VehicleManagementComponent,
+    ClientManagementComponent,
+    SidebarComponent,
     FormsModule,
     CommonModule,
     RouterModule.forRoot(routes)
