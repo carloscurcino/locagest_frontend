@@ -7,10 +7,12 @@ import { SidebarComponent } from './sidebar.component';
 import { RentalManagementComponent } from './rental-management.component';
 import { VehicleRegistrationComponent } from './vehicle-registration.component';
 import { ClientRegistrationComponent } from './client-registration.component';
-import { StartRentalComponent } from './start-rental.component';
+import { StartRentalComponent } from './components/start-rental/start-rental.component';
 import { EndRentalComponent } from './end-rental.component';
-import {CommonModule} from "@angular/common";
+import { CommonModule } from "@angular/common";
 import { LoginComponent } from './auth/login/login.component';
+
+import { provideHttpClient, withFetch } from '@angular/common/http';
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -30,7 +32,6 @@ const routes: Routes = [
     RentalManagementComponent,
     VehicleRegistrationComponent,
     ClientRegistrationComponent,
-    StartRentalComponent,
     EndRentalComponent
   ],
   imports: [
@@ -38,6 +39,9 @@ const routes: Routes = [
     FormsModule,
     CommonModule,
     RouterModule.forRoot(routes)
+  ],
+  providers: [
+    provideHttpClient(withFetch())
   ],
   bootstrap: [AppComponent]
 })

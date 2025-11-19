@@ -2,7 +2,7 @@ import { Routes } from '@angular/router';
 import { RentalManagementComponent } from './rental-management.component';
 import { VehicleRegistrationComponent } from './vehicle-registration.component';
 import { ClientRegistrationComponent } from './client-registration.component';
-import { StartRentalComponent } from './start-rental.component';
+import { StartRentalComponent } from './components/start-rental/start-rental.component';
 import { EndRentalComponent } from './end-rental.component';
 
 export const routes: Routes = [
