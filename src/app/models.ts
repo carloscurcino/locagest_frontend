@@ -2,12 +2,17 @@ export interface Vehicle {
   id: string;
   placa: string;
   modelo: string;
-  ano?: number;
-  cor?: string;
-  categoria?: string;
-  kmAtual?: number;
-  status?: 'disponivel' | 'locado' | 'manutencao';
+  ano: number;
+  cor: string;
+  categoria: string;
+  kmAtual: number;
+  renavam: number;
+  chassi: string;
+  combustivel: string;
+  fabricante: string;
+  status: 'disponivel' | 'locado' | 'manutencao';
 }
+
 
 export interface Client {
   id: string;

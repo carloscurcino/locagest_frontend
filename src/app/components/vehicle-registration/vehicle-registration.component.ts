@@ -24,10 +24,15 @@ export class VehicleRegistrationComponent implements OnInit {
 
   ngOnInit(): void {
     this.vehicleForm = this.fb.group({
-      modelo: ['', Validators.required],
       placa: ['', Validators.required],
+      renavam: ['', [Validators.required, Validators.pattern('^[0-9]{9}$'), Validators.min(1)]], // Exemplo de validação Renavam (9 dígitos)
+      chassi: ['', [Validators.required, Validators.minLength(17), Validators.maxLength(17)]], // Validação Chassi (17 caracteres)
+      fabricante: ['', Validators.required],
+      modelo: ['', Validators.required],
       ano: ['', [Validators.required, Validators.min(1900)]],
       cor: ['', Validators.required],
+      kmAtual: ['', [Validators.required, Validators.min(0)]],
+      combustivel: ['', Validators.required],
       categoria: ['', Validators.required]
     });
   }
