@@ -17,8 +17,6 @@ export class LoginComponent {
   onSubmit() {
     this.auth.login(this.identifier, this.password).subscribe({
       next: (response) => {
-        // Ajuste conforme a resposta da sua API
-        console.log("Respoinse", response)
         if (response.token) {
           localStorage.setItem('token', response.token);
           this.router.navigate(['/rentals']);

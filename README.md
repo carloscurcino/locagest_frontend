@@ -1,15 +1,5 @@
 
-# Sistema de Aluguel — Angular (conversão inicial)
-
-Criei um scaffold Angular a partir do projeto React que você enviou. Objetivo:
-- Manter a mesma estrutura de páginas: Gerenciar Aluguéis, Veículos, Clientes, Iniciar e Encerrar.
-- Fornecer componentes Angular básicos correspondentes aos arquivos React.
-- Incluir instruções para completar/rodar o projeto.
-
-**Status**
-- Conversão manual parcial automática: estrutura, rotas e componentes básicos estão prontos.
-- O estilo original baseado em Tailwind / shadcn / lucide não foi convertido item a item.
-- Lógica específica (hooks, estados complexos, integrações com APIs) foi simplificada. Você encontrará comentários para expandir.
+# Sistema de Aluguel — LocaGest
 
 **Como usar**
 1. Instale o Angular CLI localmente: `npm install -g @angular/cli` (ou use `npx` nos scripts).
