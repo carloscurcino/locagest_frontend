@@ -1,0 +1,41 @@
+<h2>Novo Cliente</h2>
+
+<div *ngIf="errorMessage" class="alert alert-danger">{{ errorMessage }}</div>
+
+<form [formGroup]="clientForm" (ngSubmit)="onSubmit()">
+
+  <div class="form-group">
+    <label>Nome Completo</label>
+    <input formControlName="nome" class="form-control" placeholder="Ex: João Silva"
+           [class.is-invalid]="clientForm.get('nome')?.invalid && clientForm.get('nome')?.touched">
+    <div class="invalid-feedback">Nome é obrigatório.</div>
+  </div>
+
+  <div class="form-row">
+    <div class="form-group">
+      <label>CPF</label>
+      <input formControlName="cpf" class="form-control" placeholder="000.000.000-00"
+             [class.is-invalid]="clientForm.get('cpf')?.invalid && clientForm.get('cpf')?.touched">
+      <div class="invalid-feedback">CPF inválido.</div>
+    </div>
+    <div class="form-group">
+      <label>Telefone</label>
+      <input formControlName="telefone" class="form-control" placeholder="(00) 00000-0000"
+             [class.is-invalid]="clientForm.get('telefone')?.invalid && clientForm.get('telefone')?.touched">
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label>Email</label>
+    <input type="email" formControlName="email" class="form-control" placeholder="joao@email.com"
+           [class.is-invalid]="clientForm.get('email')?.invalid && clientForm.get('email')?.touched">
+    <div class="invalid-feedback">Email inválido.</div>
+  </div>
+
+  <div class="actions-row">
+    <button type="button" class="btn btn-secondary" (click)="onCancel()">Cancelar</button>
+    <button type="submit" [disabled]="clientForm.invalid || isSubmitting" class="btn btn-primary">
+      {{ isSubmitting ? 'Salvando...' : 'Salvar Cliente' }}
+    </button>
+  </div>
+</form>

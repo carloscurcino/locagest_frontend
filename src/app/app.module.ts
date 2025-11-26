@@ -6,9 +6,9 @@ import { FormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 import { SidebarComponent } from './sidebar.component';
 import { RentalManagementComponent } from './rental-management.component';
-import { VehicleRegistrationComponent } from './vehicle-registration.component';
-import { ClientRegistrationComponent } from './client-registration.component';
-import { StartRentalComponent } from './start-rental.component';
+import { VehicleManagementComponent } from './components/vehicle-management/vehicle-management.component';
+import { ClientManagementComponent } from './components/client-management/client-management.component';
+import { StartRentalComponent } from './components/start-rental/start-rental.component';
 import { EndRentalComponent } from './end-rental.component';
 import { CommonModule } from "@angular/common";
 import { LoginComponent } from './auth/login/login.component';
@@ -17,6 +17,8 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ApiBaseUrlInterceptor } from './auth/api-base-url.interceptor';
 import { HttpClientModule } from '@angular/common/http';
 import { AuthGuard } from './auth/auth.guard';
+
+import { provideHttpClient, withFetch } from '@angular/common/http';
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -43,6 +45,10 @@ const routes: Routes = [
   ],
   imports: [
     BrowserModule,
+    RentalManagementComponent,
+    VehicleManagementComponent,
+    ClientManagementComponent,
+    SidebarComponent,
     FormsModule,
     CommonModule,
     HttpClientModule,
@@ -51,6 +57,9 @@ const routes: Routes = [
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: ApiBaseUrlInterceptor, multi: true }
+  ],
+  providers: [
+    provideHttpClient(withFetch())
   ],
   bootstrap: [AppComponent]
 })

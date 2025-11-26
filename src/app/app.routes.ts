@@ -1,8 +1,8 @@
 import { Routes } from '@angular/router';
 import { RentalManagementComponent } from './rental-management.component';
-import { VehicleRegistrationComponent } from './vehicle-registration.component';
-import { ClientRegistrationComponent } from './client-registration.component';
-import { StartRentalComponent } from './start-rental.component';
+import { VehicleManagementComponent } from './components/vehicle-management/vehicle-management.component';
+import { ClientManagementComponent } from './components/client-management/client-management.component';
+import { StartRentalComponent } from './components/start-rental/start-rental.component';
 import { EndRentalComponent } from './end-rental.component';
 import { LoginComponent } from './auth/login/login.component';
 import { RegisterComponent } from './auth/register/register.component';

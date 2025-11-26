@@ -1,0 +1,111 @@
+<h2>Novo Veículo</h2>
+
+<div *ngIf="errorMessage" class="alert alert-danger">{{ errorMessage }}</div>
+
+<form [formGroup]="vehicleForm" (ngSubmit)="onSubmit()">
+
+  <div class="form-row">
+    <div class="form-group">
+      <label>Placa</label>
+      <input formControlName="placa" class="form-control" placeholder="Ex: ABC-1234"
+             [class.is-invalid]="vehicleForm.get('placa')?.invalid && vehicleForm.get('placa')?.touched">
+      <div *ngIf="vehicleForm.get('placa')?.invalid && vehicleForm.get('placa')?.touched" class="invalid-feedback">
+        <div *ngIf="vehicleForm.get('placa')?.errors?.['required']">A placa é obrigatória.</div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Marca/Fabricante</label>
+      <input formControlName="fabricante" class="form-control" placeholder="Ex: Fiat"
+             [class.is-invalid]="vehicleForm.get('fabricante')?.invalid && vehicleForm.get('fabricante')?.touched">
+      <div *ngIf="vehicleForm.get('fabricante')?.invalid && vehicleForm.get('fabricante')?.touched" class="invalid-feedback">
+        <div *ngIf="vehicleForm.get('fabricante')?.errors?.['required']">A marca/fabricante é obrigatória.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label>Modelo</label>
+    <input formControlName="modelo" class="form-control" placeholder="Ex: Uno"
+           [class.is-invalid]="vehicleForm.get('modelo')?.invalid && vehicleForm.get('modelo')?.touched">
+    <div *ngIf="vehicleForm.get('modelo')?.invalid && vehicleForm.get('modelo')?.touched" class="invalid-feedback">
+      <div *ngIf="vehicleForm.get('modelo')?.errors?.['required']">O modelo é obrigatório.</div>
+    </div>
+  </div>
+
+  <div class="form-row">
+    <div class="form-group">
+      <label>Renavam</label>
+      <input type="number" formControlName="renavam" class="form-control" placeholder="Ex: 123456789"
+             [class.is-invalid]="vehicleForm.get('renavam')?.invalid && vehicleForm.get('renavam')?.touched">
+      <div *ngIf="vehicleForm.get('renavam')?.invalid && vehicleForm.get('renavam')?.touched" class="invalid-feedback">
+        <div *ngIf="vehicleForm.get('renavam')?.errors?.['required']">O Renavam é obrigatório.</div>
+        <div *ngIf="vehicleForm.get('renavam')?.errors?.['pattern']">O Renavam deve ter 9 dígitos numéricos.</div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Chassi</label>
+      <input formControlName="chassi" class="form-control" placeholder="Ex: 9BWZZZ5X0JP******"
+             [class.is-invalid]="vehicleForm.get('chassi')?.invalid && vehicleForm.get('chassi')?.touched">
+      <div *ngIf="vehicleForm.get('chassi')?.invalid && vehicleForm.get('chassi')?.touched" class="invalid-feedback">
+        <div *ngIf="vehicleForm.get('chassi')?.errors?.['required']">O Chassi é obrigatório.</div>
+        <div *ngIf="vehicleForm.get('chassi')?.errors?.['minlength'] || vehicleForm.get('chassi')?.errors?.['maxlength']">O Chassi deve ter 17 caracteres.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-row">
+    <div class="form-group">
+      <label>Ano/Modelo</label>
+      <input type="number" formControlName="ano" class="form-control" placeholder="Ex: 2023"
+             [class.is-invalid]="vehicleForm.get('ano')?.invalid && vehicleForm.get('ano')?.touched">
+      <div *ngIf="vehicleForm.get('ano')?.invalid && vehicleForm.get('ano')?.touched" class="invalid-feedback">
+        <div *ngIf="vehicleForm.get('ano')?.errors?.['required']">O ano é obrigatório.</div>
+        <div *ngIf="vehicleForm.get('ano')?.errors?.['min']">O ano deve ser um valor válido (ex: 1900 ou superior).</div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Cor</label>
+      <input formControlName="cor" class="form-control" placeholder="Ex: Preto"
+             [class.is-invalid]="vehicleForm.get('cor')?.invalid && vehicleForm.get('cor')?.touched">
+      <div *ngIf="vehicleForm.get('cor')?.invalid && vehicleForm.get('cor')?.touched" class="invalid-feedback">
+        <div *ngIf="vehicleForm.get('cor')?.errors?.['required']">A cor é obrigatória.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-row">
+    <div class="form-group">
+      <label>Tipo de Combustível</label>
+      <input formControlName="combustivel" class="form-control" placeholder="Ex: Gasolina, Flex"
+             [class.is-invalid]="vehicleForm.get('combustivel')?.invalid && vehicleForm.get('combustivel')?.touched">
+      <div *ngIf="vehicleForm.get('combustivel')?.invalid && vehicleForm.get('combustivel')?.touched" class="invalid-feedback">
+        <div *ngIf="vehicleForm.get('combustivel')?.errors?.['required']">O tipo de combustível é obrigatório.</div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>KM Atual</label>
+      <input type="number" formControlName="kmAtual" class="form-control" placeholder="Ex: 15000"
+             [class.is-invalid]="vehicleForm.get('kmAtual')?.invalid && vehicleForm.get('kmAtual')?.touched">
+      <div *ngIf="vehicleForm.get('kmAtual')?.invalid && vehicleForm.get('kmAtual')?.touched" class="invalid-feedback">
+        <div *ngIf="vehicleForm.get('kmAtual')?.errors?.['required']">O KM atual é obrigatório.</div>
+        <div *ngIf="vehicleForm.get('kmAtual')?.errors?.['min']">O KM atual deve ser um valor positivo.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label>Categoria</label>
+    <input formControlName="categoria" class="form-control" placeholder="Ex: Sedan, Hatch"
+           [class.is-invalid]="vehicleForm.get('categoria')?.invalid && vehicleForm.get('categoria')?.touched">
+    <div *ngIf="vehicleForm.get('categoria')?.invalid && vehicleForm.get('categoria')?.touched" class="invalid-feedback">
+      <div *ngIf="vehicleForm.get('categoria')?.errors?.['required']">A categoria é obrigatória.</div>
+    </div>
+  </div>
+
+  <div class="actions-row">
+    <button type="button" class="btn btn-secondary" (click)="onCancel()">Cancelar</button>
+    <button type="submit" [disabled]="vehicleForm.invalid || isSubmitting" class="btn btn-primary">
+      {{ isSubmitting ? 'Salvando...' : 'Salvar Veículo' }}
+    </button>
+  </div>
+</form>
