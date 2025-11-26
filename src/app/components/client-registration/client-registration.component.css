@@ -17,6 +17,39 @@ h2 {
   gap: 1rem;
 }
 
+/* Estilos para agrupar campos como CNH */
+fieldset {
+  border: 1px solid #d1d5db;
+  border-radius: 0.5rem;
+  padding: 1rem 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+legend {
+  padding: 0 0.5rem;
+  font-weight: 600;
+  color: #374151;
+}
+
+/* Bloco para múltiplos endereços */
+.address-block {
+  border: 1px solid #e5e7eb;
+  border-radius: 0.5rem;
+  padding: 1.5rem;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.address-block h4 {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 label {
   display: block;
   margin-bottom: 0.5rem;
@@ -56,7 +89,8 @@ label {
   color: #ef4444;
 }
 
-.is-invalid ~ .invalid-feedback {
+.is-invalid ~ .invalid-feedback,
+.ng-invalid.ng-touched ~ .invalid-feedback {
   display: block;
 }
 
@@ -65,6 +99,7 @@ label {
   gap: 1rem;
   margin-top: 2rem;
   justify-content: flex-end;
+  align-items: center;
 }
 
 .btn {
@@ -88,7 +123,6 @@ label {
 .btn-primary {
   background-color: #2563eb;
   color: white;
-  flex: 1;
 }
 .btn-primary:hover:not(:disabled) { background-color: #1d4ed8; }
 
@@ -98,6 +132,11 @@ label {
   border: 1px solid #e5e7eb;
 }
 .btn-secondary:hover { background-color: #e5e7eb; }
+
+.btn-sm {
+  padding: 0.25rem 0.75rem;
+  font-size: 0.8rem;
+}
 
 .alert {
   padding: 1rem;

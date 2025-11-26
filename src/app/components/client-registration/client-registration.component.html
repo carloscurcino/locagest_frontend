@@ -1,37 +1,145 @@
 <h2>Novo Cliente</h2>
 
+<!-- MENSAGENS DE FEEDBACK -->
+<div *ngIf="successMessage" class="alert alert-success">{{ successMessage }}</div>
 <div *ngIf="errorMessage" class="alert alert-danger">{{ errorMessage }}</div>
 
 <form [formGroup]="clientForm" (ngSubmit)="onSubmit()">
 
-  <div class="form-group">
-    <label>Nome Completo</label>
-    <input formControlName="nome" class="form-control" placeholder="Ex: João Silva"
-           [class.is-invalid]="clientForm.get('nome')?.invalid && clientForm.get('nome')?.touched">
-    <div class="invalid-feedback">Nome é obrigatório.</div>
-  </div>
-
-  <div class="form-row">
+  <!-- DADOS PESSOAIS -->
+  <fieldset class="form-group">
+    <legend>Dados Pessoais</legend>
     <div class="form-group">
-      <label>CPF</label>
-      <input formControlName="cpf" class="form-control" placeholder="000.000.000-00"
-             [class.is-invalid]="clientForm.get('cpf')?.invalid && clientForm.get('cpf')?.touched">
-      <div class="invalid-feedback">CPF inválido.</div>
+      <label for="nome">Nome Completo</label>
+      <input id="nome" formControlName="nome" class="form-control" placeholder="Ex: João da Silva"
+             [class.is-invalid]="isInvalid('nome')">
+      <div *ngIf="getControl('nome')?.errors?.['required']" class="invalid-feedback">Nome é obrigatório.</div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label for="cpf">CPF</label>
+        <input id="cpf" formControlName="cpf" class="form-control" placeholder="000.000.000-00"
+               mask="000.000.000-00"
+               [class.is-invalid]="isInvalid('cpf')">
+        <div *ngIf="getControl('cpf')?.errors?.['required']" class="invalid-feedback">CPF é obrigatório.</div>
+        <div *ngIf="getControl('cpf')?.errors?.['cpfInvalido']" class="invalid-feedback">CPF inválido.</div>
+      </div>
+      <div class="form-group">
+        <label for="dataNascimento">Data de Nascimento</label>
+        <input id="dataNascimento" type="date" formControlName="dataNascimento" class="form-control"
+               [class.is-invalid]="isInvalid('dataNascimento')">
+        <div *ngIf="getControl('dataNascimento')?.errors?.['required']" class="invalid-feedback">Data de nascimento é obrigatória.</div>
+        <div *ngIf="getControl('dataNascimento')?.errors?.['menorDeIdade']" class="invalid-feedback">O cliente deve ter no mínimo 18 anos.</div>
+      </div>
+    </div>
+  </fieldset>
+
+  <!-- CNH -->
+  <fieldset formGroupName="cnh" class="form-group">
+    <legend>Carteira de Habilitação (CNH)</legend>
+    <div class="form-row">
+      <div class="form-group">
+        <label for="cnhNumero">Número da CNH</label>
+        <input id="cnhNumero" formControlName="numero" class="form-control" placeholder="00000000000"
+               [class.is-invalid]="isInvalid('cnh.numero')">
+        <div *ngIf="getControl('cnh.numero')?.errors?.['required']" class="invalid-feedback">Número da CNH é obrigatório.</div>
+      </div>
+      <div class="form-group">
+        <label for="cnhValidade">Data de Validade</label>
+        <input id="cnhValidade" type="date" formControlName="validade" class="form-control"
+               [class.is-invalid]="isInvalid('cnh.validade')">
+        <div *ngIf="getControl('cnh.validade')?.errors?.['required']" class="invalid-feedback">Data de validade é obrigatória.</div>
+      </div>
     </div>
     <div class="form-group">
-      <label>Telefone</label>
-      <input formControlName="telefone" class="form-control" placeholder="(00) 00000-0000"
-             [class.is-invalid]="clientForm.get('telefone')?.invalid && clientForm.get('telefone')?.touched">
+      <label for="cnhTipo">Tipo CNH</label>
+      <select id="cnhTipo" formControlName="tipo" class="form-control" [class.is-invalid]="isInvalid('cnh.tipo')">
+        <option value="" disabled>Selecione o tipo</option>
+        <option value="A">A</option>
+        <option value="B">B</option>
+        <option value="AB">AB</option>
+        <option value="C">C</option>
+        <option value="D">D</option>
+        <option value="E">E</option>
+      </select>
+      <div *ngIf="getControl('cnh.tipo')?.errors?.['required']" class="invalid-feedback">Tipo da CNH é obrigatório.</div>
     </div>
-  </div>
+  </fieldset>
 
-  <div class="form-group">
-    <label>Email</label>
-    <input type="email" formControlName="email" class="form-control" placeholder="joao@email.com"
-           [class.is-invalid]="clientForm.get('email')?.invalid && clientForm.get('email')?.touched">
-    <div class="invalid-feedback">Email inválido.</div>
-  </div>
+  <!-- TELEFONES -->
+  <fieldset class="form-group" formArrayName="telefones">
+    <legend>Telefones</legend>
+    <div *ngFor="let telefone of telefones.controls; let i=index" [formGroupName]="i" class="form-row align-items-center mb-3">
+      <div class="form-group" style="margin-bottom: 0;">
+        <label>Telefone {{ i + 1 }}</label>
+        <input formControlName="numero" class="form-control" placeholder="(00) 00000-0000"
+               mask="(00) 00000-0000"
+               [class.is-invalid]="isTelefoneInvalid(i)">
+        <div *ngIf="getTelefoneControl(i)?.errors?.['required']" class="invalid-feedback">Telefone é obrigatório.</div>
+      </div>
+      <div class="actions-row" style="margin-top: 1.5rem;">
+        <button type="button" *ngIf="telefones.length > 1" (click)="removerTelefone(i)" class="btn btn-secondary btn-sm">Remover</button>
+      </div>
+    </div>
+    <button type="button" (click)="adicionarTelefone()" class="btn btn-secondary">Adicionar Telefone</button>
+  </fieldset>
 
+  <!-- ENDEREÇOS -->
+  <fieldset class="form-group" formArrayName="enderecos">
+    <legend>Endereços</legend>
+    <div *ngFor="let endereco of enderecos.controls; let i=index" [formGroupName]="i" class="address-block">
+      <h4>
+        Endereço {{ i + 1 }}
+        <button type="button" *ngIf="enderecos.length > 1" (click)="removerEndereco(i)" class="btn btn-secondary btn-sm">Remover</button>
+      </h4>
+
+      <div class="form-group">
+        <label>CEP</label>
+        <input formControlName="cep" class="form-control" placeholder="00000-000"
+               mask="00000-000"
+               (blur)="buscarCep(i)"
+               [class.is-invalid]="isEnderecoInvalid(i, 'cep')">
+        <div *ngIf="getEnderecoControl(i, 'cep')?.errors?.['required']" class="invalid-feedback">CEP é obrigatório.</div>
+        <div *ngIf="getEnderecoControl(i, 'cep')?.errors?.['cepInvalido']" class="invalid-feedback">CEP não encontrado.</div>
+        <small *ngIf="cepLoading[i]" class="form-text text-muted">Buscando CEP...</small>
+      </div>
+
+      <div class="form-group">
+        <label>Rua/Avenida</label>
+        <input formControlName="rua" class="form-control" [class.is-invalid]="isEnderecoInvalid(i, 'rua')">
+        <div *ngIf="getEnderecoControl(i, 'rua')?.errors?.['required']" class="invalid-feedback">Rua é obrigatória.</div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Complemento</label>
+          <input formControlName="complemento" class="form-control">
+        </div>
+        <div class="form-group">
+          <label>Bairro</label>
+          <input formControlName="bairro" class="form-control" [class.is-invalid]="isEnderecoInvalid(i, 'bairro')">
+          <div *ngIf="getEnderecoControl(i, 'bairro')?.errors?.['required']" class="invalid-feedback">Bairro é obrigatório.</div>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Cidade</label>
+          <input formControlName="cidade" class="form-control" [class.is-invalid]="isEnderecoInvalid(i, 'cidade')">
+          <div *ngIf="getEnderecoControl(i, 'cidade')?.errors?.['required']" class="invalid-feedback">Cidade é obrigatória.</div>
+        </div>
+        <div class="form-group">
+          <label>Estado</label>
+          <input formControlName="estado" class="form-control" [class.is-invalid]="isEnderecoInvalid(i, 'estado')">
+          <div *ngIf="getEnderecoControl(i, 'estado')?.errors?.['required']" class="invalid-feedback">Estado é obrigatório.</div>
+        </div>
+      </div>
+    </div>
+    <button type="button" (click)="adicionarEndereco()" class="btn btn-secondary">Adicionar Endereço</button>
+  </fieldset>
+
+  <!-- AÇÕES -->
   <div class="actions-row">
     <button type="button" class="btn btn-secondary" (click)="onCancel()">Cancelar</button>
     <button type="submit" [disabled]="clientForm.invalid || isSubmitting" class="btn btn-primary">
