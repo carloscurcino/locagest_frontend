@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { MatIconModule } from '@angular/material/icon';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule, Routes } from '@angular/router';
 import { FormsModule } from '@angular/forms';
@@ -11,23 +12,35 @@ import { StartRentalComponent } from './components/start-rental/start-rental.com
 import { EndRentalComponent } from './end-rental.component';
 import { CommonModule } from "@angular/common";
 import { LoginComponent } from './auth/login/login.component';
+import { RegisterComponent } from './auth/register/register.component';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { ApiBaseUrlInterceptor } from './auth/api-base-url.interceptor';
+import { HttpClientModule } from '@angular/common/http';
+import { AuthGuard } from './auth/auth.guard';
 
 import { provideHttpClient, withFetch } from '@angular/common/http';
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
-  { path: 'rentals', component: RentalManagementComponent },
-  { path: 'vehicles', component: VehicleManagementComponent },
-  { path: 'clients', component: ClientManagementComponent },
-  { path: 'start', component: StartRentalComponent },
-  { path: 'end', component: EndRentalComponent },
+  { path: 'register', component: RegisterComponent },
+    { path: 'rentals', component: RentalManagementComponent, canActivate: [AuthGuard] },
+    { path: 'vehicles', component: VehicleRegistrationComponent, canActivate: [AuthGuard] },
+    { path: 'clients', component: ClientRegistrationComponent, canActivate: [AuthGuard] },
+    { path: 'start', component: StartRentalComponent, canActivate: [AuthGuard] },
+    { path: 'end', component: EndRentalComponent, canActivate: [AuthGuard] },
 ];
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
+    RegisterComponent,
+    SidebarComponent,
+    RentalManagementComponent,
+    VehicleRegistrationComponent,
+    ClientRegistrationComponent,
+    StartRentalComponent,
     EndRentalComponent
   ],
   imports: [
@@ -38,7 +51,12 @@ const routes: Routes = [
     SidebarComponent,
     FormsModule,
     CommonModule,
-    RouterModule.forRoot(routes)
+    HttpClientModule,
+    MatIconModule,
+    RouterModule.forRoot(routes),
+  ],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: ApiBaseUrlInterceptor, multi: true }
   ],
   providers: [
     provideHttpClient(withFetch())

@@ -24,6 +24,10 @@ export class AppComponent {
 
   constructor(private router: Router) {
     this.router.events
+      .pipe(filter(event => event instanceof NavigationEnd))
+      .subscribe((event: any) => {
+        const url = event.urlAfterRedirects;
+        this.isLoginPage = url.startsWith('/login') || url.startsWith('/register');
       .pipe(filter((event): event is NavigationEnd => event instanceof NavigationEnd))
       .subscribe((event: NavigationEnd) => {
         this.isLoginPage = event.urlAfterRedirects.includes('login');

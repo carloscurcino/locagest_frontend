@@ -1,3 +1,7 @@
+import { Component } from '@angular/core';
+import { StorageService } from './storage.service';
+import { Rental } from "./models";
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { CommonModule } from '@angular/common';

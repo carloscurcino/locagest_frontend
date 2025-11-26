@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { AuthService } from './auth/auth.service';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router'; // Importante para os links funcionarem
 
@@ -62,13 +63,18 @@ import { RouterModule } from '@angular/router'; // Importante para os links func
         </nav>
       </div>
 
-      <div class="sidebar-footer">
+      <div class="sidebar-footer flex flex-col">
         <div class="user">
           <div class="avatar">A</div>
           <div class="user-info">
             <div class="user-name">Admin</div>
             <div class="user-email">admin&#64;locagest.com</div>
           </div>
+        </div>
+        <div class="logout">
+          <a (click)="logout()" class="menu-item">
+            <mat-icon aria-hidden="false" aria-label="Logout icon" fontIcon="logout"></mat-icon>
+          </a>
         </div>
       </div>
     </aside>
@@ -197,4 +203,12 @@ import { RouterModule } from '@angular/router'; // Importante para os links func
     .user-email { font-size:12px; color:#6b7280; }
   `]
 })
-export class SidebarComponent {}
+
+export class SidebarComponent {
+  constructor(private auth: AuthService) {}
+
+  logout(): void {
+    this.auth.logout();
+  }
+}
+
