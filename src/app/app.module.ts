@@ -18,7 +18,8 @@ import { ApiBaseUrlInterceptor } from './auth/api-base-url.interceptor';
 import { HttpClientModule } from '@angular/common/http';
 import { AuthGuard } from './auth/auth.guard';
 
-import { provideHttpClient, withFetch } from '@angular/common/http';
+import { ClientRegistrationComponent } from './client-registration.component';
+import { VehicleRegistrationComponent } from './vehicle-registration.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -36,18 +37,14 @@ const routes: Routes = [
     AppComponent,
     LoginComponent,
     RegisterComponent,
-    SidebarComponent,
-    RentalManagementComponent,
+    // RentalManagementComponent,
     VehicleRegistrationComponent,
     ClientRegistrationComponent,
-    StartRentalComponent,
+    // StartRentalComponent,
     EndRentalComponent
   ],
   imports: [
     BrowserModule,
-    RentalManagementComponent,
-    VehicleManagementComponent,
-    ClientManagementComponent,
     SidebarComponent,
     FormsModule,
     CommonModule,
@@ -57,9 +54,6 @@ const routes: Routes = [
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: ApiBaseUrlInterceptor, multi: true }
-  ],
-  providers: [
-    provideHttpClient(withFetch())
   ],
   bootstrap: [AppComponent]
 })

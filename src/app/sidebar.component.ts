@@ -2,11 +2,12 @@ import { Component } from '@angular/core';
 import { AuthService } from './auth/auth.service';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router'; // Importante para os links funcionarem
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-sidebar',
   standalone: true,
-  imports: [CommonModule, RouterModule], // Adicionado para habilitar routerLink e routerLinkActive
+  imports: [CommonModule, RouterModule, MatIconModule], // Adicionado para habilitar routerLink, routerLinkActive e mat-icon
   template: `
     <aside class="sidebar">
       <div class="sidebar-top">
