@@ -4,11 +4,14 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { StartRentalComponent } from './components/start-rental/start-rental.component';
+import { MatIconModule } from '@angular/material/icon';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-rental-management',
   standalone: true,
-  imports: [CommonModule, StartRentalComponent],
+  imports: [CommonModule, StartRentalComponent, MatIconModule, MatMenuModule, MatButtonModule],
   template: `
     <div class="page-container">
 
@@ -54,7 +57,26 @@ import { StartRentalComponent } from './components/start-rental/start-rental.com
                         class="btn-sm btn-success">
                   Confirmar Saída
                 </button>
-                <span *ngIf="r.status !== 'PENDENTE'" class="text-muted">-</span>
+                <span *ngIf="r.status !== 'PENDENTE'" class="text-muted">
+                  <button matIconButton [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+                    <mat-icon class="text-black">arrow_drop_down_circle</mat-icon>
+                  </button>
+                  <mat-menu #menu="matMenu">
+                    <button mat-menu-item [disabled]="r.status === 'ATIVA'">
+                      <mat-icon>edit</mat-icon>
+                      <span>Editar</span>
+                    </button>
+                    <!-- <button mat-menu-item disabled>
+                      <mat-icon>voicemail</mat-icon>
+                      <span>Deletar</span>
+                    </button> -->
+                    <button mat-menu-item [disabled]="r.status !== 'ATIVA'">
+                      <mat-icon>stop_circle</mat-icon>
+                      <span>Encerrar aluguel</span>
+                    </button>
+                  </mat-menu>
+
+                </span>
               </td>
             </tr>
 
@@ -76,7 +98,7 @@ import { StartRentalComponent } from './components/start-rental/start-rental.com
       </div>
     </div>
   `,
-  styleUrl: './rental-management.component.css'
+  styleUrls: ['./rental-management.component.css']
 })
 export class RentalManagementComponent implements OnInit {
   rentals: any[] = [];
