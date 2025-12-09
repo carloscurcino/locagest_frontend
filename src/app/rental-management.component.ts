@@ -7,11 +7,12 @@ import { StartRentalComponent } from './components/start-rental/start-rental.com
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
+import { FinishRentalComponent } from './components/finsih-rental/finish-rental.component';
 
 @Component({
   selector: 'app-rental-management',
   standalone: true,
-  imports: [CommonModule, StartRentalComponent, MatIconModule, MatMenuModule, MatButtonModule],
+  imports: [CommonModule, StartRentalComponent, FinishRentalComponent, MatIconModule, MatMenuModule, MatButtonModule],
   template: `
     <div class="page-container">
 
@@ -70,7 +71,9 @@ import { MatButtonModule } from '@angular/material/button';
                       <mat-icon>voicemail</mat-icon>
                       <span>Deletar</span>
                     </button> -->
-                    <button mat-menu-item [disabled]="r.status !== 'ATIVA'">
+                    <button
+                    (click)="abrirFinishModal(r.id)"
+                     mat-menu-item [disabled]="r.status !== 'ATIVA'">
                       <mat-icon>stop_circle</mat-icon>
                       <span>Encerrar aluguel</span>
                     </button>
@@ -96,6 +99,16 @@ import { MatButtonModule } from '@angular/material/button';
           </app-start-rental>
         </div>
       </div>
+
+       <div *ngIf="isFinishModalOpen" class="modal-overlay">
+        <div class="modal-container">
+          <app-finish-rental
+            [rentalId]="selectedRentalId"
+            (onSaved)="onLocacaoSalva()"
+            (onCanceled)="fecharFinishModal()">
+          </app-finish-rental>
+        </div>
+      </div>
     </div>
   `,
   styleUrls: ['./rental-management.component.css']
@@ -103,6 +116,8 @@ import { MatButtonModule } from '@angular/material/button';
 export class RentalManagementComponent implements OnInit {
   rentals: any[] = [];
   isModalOpen = false;
+  isFinishModalOpen = false;
+  selectedRentalId: number | undefined;
   private apiUrl = 'http://localhost:8080/api/locacoes';
 
   constructor(private http: HttpClient) {}
@@ -114,6 +129,12 @@ export class RentalManagementComponent implements OnInit {
   abrirModal() { this.isModalOpen = true; }
   fecharModal() { this.isModalOpen = false; }
 
+  abrirFinishModal(rentalId: number) {
+    this.selectedRentalId = rentalId;
+    this.isFinishModalOpen = true;
+  }
+  fecharFinishModal() { this.isFinishModalOpen = false; }
+
   onLocacaoSalva() {
     this.fecharModal();
     this.carregarLocacoes();
@@ -122,7 +143,7 @@ export class RentalManagementComponent implements OnInit {
   carregarLocacoes() {
     const token = localStorage.getItem('token');
     const headers = token ? new HttpHeaders().set('Authorization', `Bearer ${token}`) : undefined;
-
+    console.log('Carregando locações com token:', token);
     this.http.get<any[]>(this.apiUrl, { headers }).subscribe({
       next: (data) => {
         this.rentals = data;

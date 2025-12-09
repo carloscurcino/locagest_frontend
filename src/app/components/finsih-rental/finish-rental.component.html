@@ -1,0 +1,86 @@
+<h2>Finalizar Locação</h2>
+
+<div *ngIf="successMessage" class="alert alert-success">
+  {{ successMessage }}
+</div>
+<div *ngIf="errorMessage" class="alert alert-danger">
+  {{ errorMessage }}
+</div>
+
+<form [formGroup]="rentalForm" (ngSubmit)="onSubmit()" novalidate>
+
+  <div class="form-group">
+    <label for="vehicle">Veículo</label>
+    <select id="vehicle" formControlName="veiculoId" [disabled]="true" class="form-control"
+            [class.is-invalid]="rentalForm.get('veiculoId')?.invalid && (rentalForm.get('veiculoId')?.dirty || rentalForm.get('veiculoId')?.touched)">
+      <option value="" disabled selected>
+        {{ isLoadingVehicles ? 'Carregando...' : 'Selecione o veículo' }}
+      </option>
+      <option *ngFor="let vehicle of vehicles" [value]="vehicle.id">
+        {{ vehicle.modelo }} - {{ vehicle.placa }}
+      </option>
+    </select>
+    <div class="invalid-feedback">Selecione um veículo.</div>
+  </div>
+
+  <div class="form-group">
+    <label for="client">Cliente</label>
+    <select id="client" formControlName="clienteId" class="form-control"
+            [class.is-invalid]="rentalForm.get('clienteId')?.invalid && (rentalForm.get('clienteId')?.dirty || rentalForm.get('clienteId')?.touched)">
+      <option value="" disabled selected>
+        {{ isLoadingClients ? 'Carregando...' : 'Selecione o cliente' }}
+      </option>
+      <option *ngFor="let client of clients" [value]="client.id">
+        {{ client.nome }} (CPF: {{ client.cpf }})
+      </option>
+    </select>
+    <div class="invalid-feedback">Selecione um cliente.</div>
+  </div>
+
+  <div class="form-row">
+    <div class="form-group">
+      <label for="startTime">Início</label>
+      <input type="datetime-local" id="startTime" formControlName="dataHoraInicial" class="form-control"
+             [class.is-invalid]="rentalForm.get('dataHoraInicial')?.invalid && (rentalForm.get('dataHoraInicial')?.dirty || rentalForm.get('dataHoraInicial')?.touched)">
+      <div class="invalid-feedback">Obrigatório.</div>
+    </div>
+
+    <div class="form-group">
+      <label for="returnTime">Devolução prevista</label>
+      <input type="datetime-local" id="returnTime" formControlName="dataHoraPrevistaDevolucao" class="form-control"
+             [class.is-invalid]="rentalForm.get('dataHoraPrevistaDevolucao')?.invalid && (rentalForm.get('dataHoraPrevistaDevolucao')?.dirty || rentalForm.get('dataHoraPrevistaDevolucao')?.touched)">
+      <div class="invalid-feedback">Obrigatório.</div>
+    </div>
+  </div>
+
+  <div class="form-group">
+      <label for="returnTime">Devolução</label>
+      <input type="datetime-local" id="returnTime" formControlName="dataDevolucao" class="form-control"
+             [class.is-invalid]="rentalForm.get('dataDevolucao')?.invalid && (rentalForm.get('dataDevolucao')?.dirty || rentalForm.get('dataDevolucao')?.touched)">
+      <div class="invalid-feedback">Obrigatório.</div>
+    </div>
+
+  <div class="form-group">
+    <label for="kmEntrega">Quilometragem inicial</label>
+    <input type="number" id="kmEntrega" formControlName="kmEntrega" class="form-control" placeholder="Ex: 50000"
+           [class.is-invalid]="rentalForm.get('kmEntrega')?.invalid && (rentalForm.get('kmEntrega')?.dirty || rentalForm.get('kmEntrega')?.touched)">
+    <div class="invalid-feedback" *ngIf="rentalForm.get('kmEntrega')?.errors?.['required']">Informe a KM.</div>
+    <div class="invalid-feedback" *ngIf="rentalForm.get('kmEntrega')?.errors?.['min']">KM inválida.</div>
+  </div>
+
+  <div class="form-group">
+    <label for="kmEntrega">Quilometragem final</label>
+    <input type="number" id="kmEntrega" formControlName="kmEntrega" class="form-control" placeholder="Ex: 50000"
+           [class.is-invalid]="rentalForm.get('kmEntrega')?.invalid && (rentalForm.get('kmEntrega')?.dirty || rentalForm.get('kmEntrega')?.touched)">
+    <div class="invalid-feedback" *ngIf="rentalForm.get('kmEntrega')?.errors?.['required']">Informe a KM.</div>
+    <div class="invalid-feedback" *ngIf="rentalForm.get('kmEntrega')?.errors?.['min']">KM inválida.</div>
+  </div>
+
+  <div class="actions-row">
+    <button type="button" class="btn btn-secondary" (click)="onCancel()">Cancelar</button>
+    <button type="submit" [disabled]="rentalForm.invalid || isSubmitting" class="btn btn-primary">
+      {{ isSubmitting ? 'Processando...' : 'Confirmar Locação' }}
+    </button>
+  </div>
+
+</form>
