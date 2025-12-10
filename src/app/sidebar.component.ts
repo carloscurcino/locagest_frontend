@@ -52,15 +52,6 @@ import { MatIconModule } from '@angular/material/icon';
             <span class="label">Clientes</span>
           </a>
 
-          <a routerLink="/end" routerLinkActive="active" class="menu-item">
-            <span class="icon" aria-hidden="true">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <rect x="5" y="5" width="14" height="14" rx="2" stroke="currentColor" stroke-width="1.5"/>
-              </svg>
-            </span>
-            <span class="label">Encerrar Aluguel</span>
-          </a>
-
         </nav>
       </div>
 
