@@ -54,22 +54,14 @@
   </div>
 
   <div class="form-group">
-      <label for="returnTime">Devolução</label>
-      <input type="datetime-local" id="returnTime" formControlName="dataDevolucao" class="form-control"
-             [class.is-invalid]="rentalForm.get('dataDevolucao')?.invalid && (rentalForm.get('dataDevolucao')?.dirty || rentalForm.get('dataDevolucao')?.touched)">
-      <div class="invalid-feedback">Obrigatório.</div>
-    </div>
-
-  <div class="form-group">
-    <label for="kmEntrega">Quilometragem inicial</label>
-    <input type="number" id="kmEntrega" formControlName="kmEntrega" class="form-control" placeholder="Ex: 50000"
-           [class.is-invalid]="rentalForm.get('kmEntrega')?.invalid && (rentalForm.get('kmEntrega')?.dirty || rentalForm.get('kmEntrega')?.touched)">
-    <div class="invalid-feedback" *ngIf="rentalForm.get('kmEntrega')?.errors?.['required']">Informe a KM.</div>
-    <div class="invalid-feedback" *ngIf="rentalForm.get('kmEntrega')?.errors?.['min']">KM inválida.</div>
+    <label for="dataHoraDevolucao">Data/Hora da Devolução</label>
+    <input type="datetime-local" id="dataHoraDevolucao" formControlName="dataHoraDevolucao" class="form-control"
+           [class.is-invalid]="rentalForm.get('dataHoraDevolucao')?.invalid && (rentalForm.get('dataHoraDevolucao')?.dirty || rentalForm.get('dataHoraDevolucao')?.touched)">
+    <div class="invalid-feedback">Obrigatório.</div>
   </div>
 
   <div class="form-group">
-    <label for="kmEntrega">Quilometragem final</label>
+    <label for="kmEntrega">Quilometragem na devolução</label>
     <input type="number" id="kmEntrega" formControlName="kmEntrega" class="form-control" placeholder="Ex: 50000"
            [class.is-invalid]="rentalForm.get('kmEntrega')?.invalid && (rentalForm.get('kmEntrega')?.dirty || rentalForm.get('kmEntrega')?.touched)">
     <div class="invalid-feedback" *ngIf="rentalForm.get('kmEntrega')?.errors?.['required']">Informe a KM.</div>
@@ -79,7 +71,7 @@
   <div class="actions-row">
     <button type="button" class="btn btn-secondary" (click)="onCancel()">Cancelar</button>
     <button type="submit" [disabled]="rentalForm.invalid || isSubmitting" class="btn btn-primary">
-      {{ isSubmitting ? 'Processando...' : 'Confirmar Locação' }}
+      {{ isSubmitting ? 'Processando...' : 'Confirmar Fim da Locação' }}
     </button>
   </div>
 

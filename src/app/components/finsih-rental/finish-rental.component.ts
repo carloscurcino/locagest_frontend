@@ -23,6 +23,7 @@ export class FinishRentalComponent implements OnInit {
   isSubmitting = false;
   successMessage: string | null = null;
   errorMessage: string | null = null;
+  rentalValue: number | null = null;
 
   @Output() onSaved = new EventEmitter<void>();
   @Output() onCanceled = new EventEmitter<void>();
@@ -33,11 +34,16 @@ export class FinishRentalComponent implements OnInit {
   private apiUrl = 'http://localhost:8080/api';
 
   ngOnInit(): void {
+    // Define data/hora atual para devolução
+    const now = new Date();
+    const currentDateTime = this.toDateTimeLocal(now.toISOString());
+
     this.rentalForm = this.fb.group({
       veiculoId: ['', Validators.required],
       clienteId: ['', Validators.required],
       dataHoraInicial: ['', Validators.required],
       dataHoraPrevistaDevolucao: ['', Validators.required],
+      dataHoraDevolucao: [currentDateTime, Validators.required],
       kmEntrega: ['', [Validators.required, Validators.min(0)]]
     });
     // Desabilita os selects por padrão — os dados já devem estar preenchidos para finalização
@@ -52,41 +58,39 @@ export class FinishRentalComponent implements OnInit {
     if (idToLoad) this.loadRentalDetails(idToLoad);
   }
 
+  toDateTimeLocal(iso?: string | null): string {
+    if (!iso) return '';
+    const d = new Date(iso);
+    if (isNaN(d.getTime())) return '';
+    const pad = (n: number) => n.toString().padStart(2, '0');
+    const yyyy = d.getFullYear();
+    const mm = pad(d.getMonth() + 1);
+    const dd = pad(d.getDate());
+    const hh = pad(d.getHours());
+    const min = pad(d.getMinutes());
+    return `${yyyy}-${mm}-${dd}T${hh}:${min}`;
+  }
+
   loadRentalDetails(rentalId: number) {
     this.http.get<any>(`${this.apiUrl}/locacoes/${rentalId}`)
       .subscribe({
         next: (data) => {
-          console.log('Locação carregada:', data);
-          // API pode retornar formas diferentes; suportamos ambas
           const veiculoId = data.veiculoId ?? data.veiculo?.id ?? '';
           const clienteId = data.clienteId ?? data.cliente?.id ?? '';
           const dataInicial = data.dataHoraInicial ?? data.dataInicial ?? data.dataHoraInicial;
           const dataPrev = data.dataHoraPrevistaDevolucao ?? data.dataDevolucao ?? data.dataHoraPrevistaDevolucao;
           const kmEntrega = data.kmEntrega ?? data.km ?? 0;
 
-          const toDateTimeLocal = (iso?: string | null) => {
-            if (!iso) return '';
-            const d = new Date(iso);
-            if (isNaN(d.getTime())) return '';
-            const pad = (n: number) => n.toString().padStart(2, '0');
-            const yyyy = d.getFullYear();
-            const mm = pad(d.getMonth() + 1);
-            const dd = pad(d.getDate());
-            const hh = pad(d.getHours());
-            const min = pad(d.getMinutes());
-            return `${yyyy}-${mm}-${dd}T${hh}:${min}`;
-          };
-
           this.rentalForm.patchValue({
             veiculoId,
             clienteId,
-            dataHoraInicial: toDateTimeLocal(dataInicial),
-            dataHoraPrevistaDevolucao: toDateTimeLocal(dataPrev),
+            dataHoraInicial: this.toDateTimeLocal(dataInicial),
+            dataHoraPrevistaDevolucao: this.toDateTimeLocal(dataPrev),
             kmEntrega
           });
         },
         error: (error: HttpErrorResponse) => {
-          this.errorMessage = 'Erro ao carregar detalhes da locação.';
+          this.errorMessage = error.message || 'Erro ao carregar detalhes da locação.';
         }
       });
   }
@@ -109,12 +113,28 @@ export class FinishRentalComponent implements OnInit {
 
     this.isSubmitting = true;
     const kmEntrega = +this.rentalForm.value.kmEntrega;
+    const dataHoraDevolucao = this.rentalForm.value.dataHoraDevolucao;
+    const formatDateTime = (d: any) => {
+      if (!d) return null;
+      // Se for string no formato yyyy-MM-ddTHH:mm, adiciona :00 para segundos
+      if (typeof d === 'string' && d.length === 16) {
+        d = d + ':00';
+      }
+      const date = new Date(d);
+      return date.toISOString();
+    };
 
-    this.http.put(`${this.apiUrl}/locacoes/${id}/end`, { kmEntrega }).subscribe({
-      next: () => {
-        this.successMessage = 'Locação encerrada com sucesso.';
+    this.http.put(`${this.apiUrl}/locacoes/${id}/end`, {
+      kmEntrega,
+      dataDevolucao: formatDateTime(dataHoraDevolucao)
+    }).subscribe({
+      next: (response: any) => {
+        this.rentalValue = response.valor || null;
+        this.successMessage = this.rentalValue
+          ? `Locação encerrada com sucesso! Valor final: R$ ${this.rentalValue.toFixed(2)}`
+          : 'Locação encerrada com sucesso.';
         this.isSubmitting = false;
-        this.onSaved.emit();
+        setTimeout(() => this.onSaved.emit(), 2000);
       },
       error: (err: HttpErrorResponse) => {
         console.error('Erro ao encerrar locação', err);
@@ -143,32 +163,7 @@ export class FinishRentalComponent implements OnInit {
   }
 
   onSubmit() {
-    if (this.rentalForm.invalid) {
-      this.rentalForm.markAllAsTouched();
-      return;
-    }
-    this.isSubmitting = true;
-    const formatDateTime = (d: any) => d && d.toString().length === 16 ? d.toString() + ':00' : d;
-    // Use getRawValue() para incluir controles desabilitados (veiculoId, clienteId, dataHoraInicial)
-    const rawValue = this.rentalForm.getRawValue();
-    const formData: LocacaoRequestDTO = {
-      veiculoId: +rawValue.veiculoId,
-      clienteId: +rawValue.clienteId,
-      dataHoraInicial: formatDateTime(rawValue.dataHoraInicial),
-      dataHoraPrevistaDevolucao: formatDateTime(rawValue.dataHoraPrevistaDevolucao),
-      kmEntrega: +rawValue.kmEntrega
-    };
-
-    this.http.put(`${this.apiUrl}/locacoes/${this.rentalId}/end`, formData).subscribe({
-      next: () => {
-        this.successMessage = "Locação finalizda com sucesso!";
-        this.onSaved.emit();
-      },
-      error: (e) => {
-        this.errorMessage = "Erro ao salvar locação.";
-        this.isSubmitting = false;
-      }
-    });
+    this.finishRental();
   }
 
   onCancel() { this.onCanceled.emit(); }
