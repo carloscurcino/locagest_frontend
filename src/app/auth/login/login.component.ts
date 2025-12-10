@@ -25,6 +25,7 @@ export class LoginComponent implements OnInit {
       next: (response) => {
         if (response.token) {
           localStorage.setItem('token', response.token);
+          localStorage.setItem('user', JSON.stringify(response.user));
           this.router.navigate(['/rentals']);
         } else {
           this.errorMessage = 'Usuário ou senha incorretos';

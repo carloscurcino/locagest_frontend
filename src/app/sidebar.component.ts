@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AuthService } from './auth/auth.service';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router'; // Importante para os links funcionarem
@@ -57,10 +57,10 @@ import { MatIconModule } from '@angular/material/icon';
 
       <div class="sidebar-footer flex flex-col">
         <div class="user">
-          <div class="avatar">A</div>
+            <div class="avatar">{{ avatarLetter }}</div>
           <div class="user-info">
-            <div class="user-name">Admin</div>
-            <div class="user-email">admin&#64;locagest.com</div>
+              <div class="user-name">{{ userName }}</div>
+              <div class="user-email">{{ userEmail }}</div>
           </div>
         </div>
         <div class="logout">
@@ -196,10 +196,24 @@ import { MatIconModule } from '@angular/material/icon';
   `]
 })
 
-export class SidebarComponent {
+export class SidebarComponent implements OnInit {
+  userName = 'Usuário';
+  userEmail = 'usuario@locagest.com';
+  avatarLetter = 'U';
+
   constructor(private auth: AuthService) {}
 
-  logout(): void {
+  ngOnInit(): void {
+    const user = this.auth.getUser();
+    if (user) {
+      this.userName = user.nome || user.name || user.username || this.userName;
+      this.userEmail = user.email || this.userEmail;
+      const first = this.userName.trim().charAt(0) || this.userEmail.trim().charAt(0);
+      this.avatarLetter = first ? first.toUpperCase() : this.avatarLetter;
+    }
+  }
+
+  logout() {
     this.auth.logout();
   }
 }
