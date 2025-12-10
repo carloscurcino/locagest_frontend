@@ -30,7 +30,8 @@ import { FinishRentalComponent } from './components/finsih-rental/finish-rental.
               <th>Cliente</th>
               <th>Veículo</th>
               <th>Início</th>
-              <th>Prevista</th>
+              <th>Devolução</th>
+              <th>Valor</th>
               <th>Status</th>
               <th>Ações</th>
             </tr>
@@ -50,6 +51,10 @@ import { FinishRentalComponent } from './components/finsih-rental/finish-rental.
               <td>{{r.dataInicial | date:'dd/MM/yyyy HH:mm'}}</td>
               <td>{{r.dataDevolucao | date:'dd/MM/yyyy HH:mm'}}</td>
               <td>
+                <span *ngIf="r.valor">R$ {{ r.valor | number:'1.2-2' }}</span>
+                <span *ngIf="!r.valor" class="text-muted">-</span>
+              </td>
+              <td>
                 <span class="badge" [ngClass]="getBadgeClass(r.status)">{{r.status}}</span>
               </td>
               <td>
@@ -63,10 +68,10 @@ import { FinishRentalComponent } from './components/finsih-rental/finish-rental.
                     <mat-icon class="text-black">arrow_drop_down_circle</mat-icon>
                   </button>
                   <mat-menu #menu="matMenu">
-                    <button mat-menu-item [disabled]="r.status === 'ATIVA'">
+                    <!-- <button mat-menu-item [disabled]="r.status === 'ATIVA'">
                       <mat-icon>edit</mat-icon>
                       <span>Editar</span>
-                    </button>
+                    </button> -->
                     <!-- <button mat-menu-item disabled>
                       <mat-icon>voicemail</mat-icon>
                       <span>Deletar</span>
@@ -84,7 +89,7 @@ import { FinishRentalComponent } from './components/finsih-rental/finish-rental.
             </tr>
 
             <tr *ngIf="rentals.length === 0">
-              <td colspan="7" class="empty-state">Nenhum aluguel registrado.</td>
+              <td colspan="8" class="empty-state">Nenhum aluguel registrado.</td>
             </tr>
             </tbody>
           </table>
@@ -137,17 +142,16 @@ export class RentalManagementComponent implements OnInit {
 
   onLocacaoSalva() {
     this.fecharModal();
+    this.fecharFinishModal();
     this.carregarLocacoes();
   }
 
   carregarLocacoes() {
     const token = localStorage.getItem('token');
     const headers = token ? new HttpHeaders().set('Authorization', `Bearer ${token}`) : undefined;
-    console.log('Carregando locações com token:', token);
     this.http.get<any[]>(this.apiUrl, { headers }).subscribe({
       next: (data) => {
         this.rentals = data;
-        console.log('Dados recebidos:', data); // Útil para debug
       },
       error: (err) => console.error('Erro ao carregar:', err)
     });
