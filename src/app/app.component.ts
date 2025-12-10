@@ -5,7 +5,7 @@ import { filter } from 'rxjs/operators';
 @Component({
   selector: 'app-root',
   template: `
-    <div class="flex min-h-screen bg-gray-50 font-sans">
+      <div class="flex min-h-screen font-sans">
 
       <app-sidebar *ngIf="!isLoginPage"></app-sidebar>
 
@@ -15,8 +15,6 @@ import { filter } from 'rxjs/operators';
         <router-outlet></router-outlet>
 
       </main>
-
-    </div>
   `
 })
 export class AppComponent {
@@ -27,7 +25,7 @@ export class AppComponent {
       .pipe(filter((event): event is NavigationEnd => event instanceof NavigationEnd))
       .subscribe((event: NavigationEnd) => {
         const url = event.urlAfterRedirects;
-        this.isLoginPage = url.startsWith('/login') || url.startsWith('/register');
+        this.isLoginPage = url.includes('login') || url.includes('register');
       });
   }
 }

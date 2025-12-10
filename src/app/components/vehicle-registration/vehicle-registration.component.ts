@@ -15,6 +15,11 @@ export class VehicleRegistrationComponent implements OnInit {
   isSubmitting = false;
   errorMessage: string | null = null;
 
+  // Categorias válidas que definem o cálculo de preço no backend
+  categories = ['econômico', 'intermediário', 'executivo', 'SUV', 'luxo'];
+  // Tipos de combustível
+  fuels = ['Gasolina', 'Diesel', 'Flex', 'Elétrico', 'Híbrido'];
+
   @Output() onSaved = new EventEmitter<void>();
   @Output() onCanceled = new EventEmitter<void>();
 

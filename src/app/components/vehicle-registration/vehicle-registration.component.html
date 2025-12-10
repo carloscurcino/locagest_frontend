@@ -76,8 +76,11 @@
   <div class="form-row">
     <div class="form-group">
       <label>Tipo de Combustível</label>
-      <input formControlName="combustivel" class="form-control" placeholder="Ex: Gasolina, Flex"
-             [class.is-invalid]="vehicleForm.get('combustivel')?.invalid && vehicleForm.get('combustivel')?.touched">
+      <select formControlName="combustivel" class="form-control"
+              [class.is-invalid]="vehicleForm.get('combustivel')?.invalid && vehicleForm.get('combustivel')?.touched">
+        <option value="" disabled>Selecione o tipo de combustível</option>
+        <option *ngFor="let fuel of fuels" [value]="fuel">{{ fuel }}</option>
+      </select>
       <div *ngIf="vehicleForm.get('combustivel')?.invalid && vehicleForm.get('combustivel')?.touched" class="invalid-feedback">
         <div *ngIf="vehicleForm.get('combustivel')?.errors?.['required']">O tipo de combustível é obrigatório.</div>
       </div>
@@ -95,8 +98,11 @@
 
   <div class="form-group">
     <label>Categoria</label>
-    <input formControlName="categoria" class="form-control" placeholder="Ex: Sedan, Hatch"
-           [class.is-invalid]="vehicleForm.get('categoria')?.invalid && vehicleForm.get('categoria')?.touched">
+    <select formControlName="categoria" class="form-control"
+            [class.is-invalid]="vehicleForm.get('categoria')?.invalid && vehicleForm.get('categoria')?.touched">
+      <option value="" disabled>Selecione a categoria</option>
+      <option *ngFor="let cat of categories" [value]="cat">{{ cat }}</option>
+    </select>
     <div *ngIf="vehicleForm.get('categoria')?.invalid && vehicleForm.get('categoria')?.touched" class="invalid-feedback">
       <div *ngIf="vehicleForm.get('categoria')?.errors?.['required']">A categoria é obrigatória.</div>
     </div>

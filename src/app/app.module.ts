@@ -27,8 +27,8 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
     { path: 'rentals', component: RentalManagementComponent, canActivate: [AuthGuard] },
-    { path: 'vehicles', component: VehicleRegistrationComponent, canActivate: [AuthGuard] },
-    { path: 'clients', component: ClientRegistrationComponent, canActivate: [AuthGuard] },
+    { path: 'vehicles', component: VehicleManagementComponent, canActivate: [AuthGuard] },
+    { path: 'clients', component: ClientManagementComponent, canActivate: [AuthGuard] },
     { path: 'start', component: StartRentalComponent, canActivate: [AuthGuard] },
     { path: 'end', component: EndRentalComponent, canActivate: [AuthGuard] },
 ];
@@ -53,6 +53,9 @@ const routes: Routes = [
     HttpClientModule,
     MatIconModule,
     RouterModule.forRoot(routes),
+    VehicleManagementComponent,
+    ClientManagementComponent,
+    RentalManagementComponent
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: ApiBaseUrlInterceptor, multi: true }
