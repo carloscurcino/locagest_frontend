@@ -30,8 +30,9 @@ export class LoginComponent implements OnInit {
           this.errorMessage = 'Usuário ou senha incorretos';
         }
       },
-      error: () => {
-        this.errorMessage = 'Erro ao tentar logar';
+      error: (error) => {
+        const body = error && error.error ? error.error : null;
+        this.errorMessage = body.error || 'Erro ao tentar logar';
       }
     });
   }
