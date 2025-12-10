@@ -23,6 +23,7 @@ export class StartRentalComponent implements OnInit {
   isSubmitting = false;
   successMessage: string | null = null;
   errorMessage: string | null = null;
+  rentalValue: number | null = null;
 
   @Output() onSaved = new EventEmitter<void>();
   @Output() onCanceled = new EventEmitter<void>();
@@ -77,9 +78,13 @@ export class StartRentalComponent implements OnInit {
     };
 
     this.http.post(`${this.apiUrl}/locacoes`, formData).subscribe({
-      next: () => {
-        this.successMessage = "Locação iniciada com sucesso!";
-        this.onSaved.emit();
+      next: (response: any) => {
+        this.rentalValue = response.valor || null;
+        this.successMessage = this.rentalValue
+          ? `Locação iniciada com sucesso! Valor parcial: R$ ${this.rentalValue.toFixed(2)}`
+          : "Locação iniciada com sucesso!";
+        this.isSubmitting = false;
+        setTimeout(() => this.onSaved.emit(), 2000);
       },
       error: (e) => {
         this.errorMessage = "Erro ao salvar locação.";
