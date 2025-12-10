@@ -5,8 +5,6 @@ import { EndRentalComponent } from './end-rental.component';
 import { LoginComponent } from './auth/login/login.component';
 import { RegisterComponent } from './auth/register/register.component';
 import { AuthGuard } from './auth/auth.guard';
-import { VehicleRegistrationComponent } from './vehicle-registration.component';
-import { ClientRegistrationComponent } from './client-registration.component';
 import { VehicleManagementComponent } from './components/vehicle-management/vehicle-management.component';
 import { ClientManagementComponent } from './components/client-management/client-management.component';
 
