@@ -5,13 +5,16 @@ import { filter } from 'rxjs/operators';
 @Component({
   selector: 'app-root',
   template: `
-  <div class="flex min-h-screen">
-    <app-sidebar *ngIf="!isLoginPage"></app-sidebar>
+      <div class="flex min-h-screen font-sans">
 
-    <div class="flex-1 p-4 bg-gray-50">
-      <router-outlet></router-outlet>
-    </div>
-  </div>
+      <app-sidebar *ngIf="!isLoginPage"></app-sidebar>
+
+      <main class="flex-1 p-8 transition-all duration-300"
+            [ngClass]="{'ml-[260px]': !isLoginPage}">
+
+        <router-outlet></router-outlet>
+
+      </main>
   `
 })
 export class AppComponent {
@@ -19,10 +22,10 @@ export class AppComponent {
 
   constructor(private router: Router) {
     this.router.events
-      .pipe(filter(event => event instanceof NavigationEnd))
-      .subscribe((event: any) => {
+      .pipe(filter((event): event is NavigationEnd => event instanceof NavigationEnd))
+      .subscribe((event: NavigationEnd) => {
         const url = event.urlAfterRedirects;
-        this.isLoginPage = url.startsWith('/login') || url.startsWith('/register');
+        this.isLoginPage = url.includes('login') || url.includes('register');
       });
   }
 }
