@@ -62,11 +62,11 @@ import { MatIconModule } from '@angular/material/icon';
               <div class="user-name">{{ userName }}</div>
               <div class="user-email">{{ userEmail }}</div>
           </div>
-        </div>
-        <div class="logout">
-          <a (click)="logout()" class="menu-item">
-            <mat-icon aria-hidden="false" aria-label="Logout icon" fontIcon="logout"></mat-icon>
-          </a>
+          <div class="logout">
+            <a (click)="logout()" class="menu-item">
+              <mat-icon aria-hidden="false" aria-label="Logout icon" fontIcon="logout"></mat-icon>
+            </a>
+          </div>
         </div>
       </div>
     </aside>
